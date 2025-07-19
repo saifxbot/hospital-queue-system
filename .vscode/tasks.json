@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Backend Server",
+			"type": "shell",
+			"command": "C:/Users/saifi/Documents/hospital-queue-system/backend/.venv/Scripts/python.exe",
+			"args": [
+				"run.py"
+			],
+			"group": "serve",
+			"isBackground": true,
+			"problemMatcher": [],
+			"options": {
+				"cwd": "c:\\Users\\saifi\\Documents\\hospital-queue-system\\backend"
+			}
+		}
+	]
+}
