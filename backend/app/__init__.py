@@ -1,8 +1,11 @@
-# Ei file-e Flask app create kora hoy
 from flask import Flask
 from .config import Config
 from .extensions import db, migrate, jwt
 from .routes.auth import auth_bp
+from .routes.patient import patient_bp
+from .routes.doctor import doctor_bp
+from .routes.queue import queue_bp
+from .routes.appointment import appointment_bp
 
 def create_app():
     app = Flask(__name__)
@@ -14,5 +17,9 @@ def create_app():
 
     # sob blueprint register koro
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
-
+    app.register_blueprint(patient_bp, url_prefix="/api/patient")
+    app.register_blueprint(doctor_bp, url_prefix="/api/doctor")
+    app.register_blueprint(queue_bp, url_prefix="/api/queue")
+    app.register_blueprint(appointment_bp, url_prefix="/api/appointment")
+    
     return app

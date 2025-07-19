@@ -1,4 +1,3 @@
-# User registration & login API
 from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models import User
@@ -23,6 +22,19 @@ def register():
     user.set_password(password)
     db.session.add(user)
     db.session.commit()
+
+    # Create Patient or Doctor profile if needed
+    if role == "patient":
+        from app.models import Patient
+        patient = Patient(user_id=user.id, name=username, age=0, gender="", phone="", address="")
+        db.session.add(patient)
+        db.session.commit()
+    elif role == "doctor":
+        from app.models import Doctor
+        doctor = Doctor(user_id=user.id, name=username, specialization="", phone="", chamber="", available_days="")
+        db.session.add(doctor)
+        db.session.commit()
+
     return jsonify({"msg": "User registered successfully"}), 201
 
 @auth_bp.route("/login", methods=["POST"])
@@ -33,6 +45,7 @@ def login():
 
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
-        access_token = create_access_token(identity={"id": user.id, "role": user.role})
+        # ONLY user.id as identity (not dict)
+        access_token = create_access_token(identity=user.id)
         return jsonify(access_token=access_token), 200
     return jsonify({"msg": "Invalid credentials"}), 401
