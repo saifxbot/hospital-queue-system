@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import AppointmentForm from "./components/Appointments/AppointmentForm";
 import AppointmentList from "./components/Appointments/AppointmentList";
 import DoctorsList from "./components/Doctors/DoctorsList";
+import MedicalChatbot from "./components/Chatbot/MedicalChatbot";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      
+      {/* Medical Chatbot - Available on all pages */}
+      <MedicalChatbot />
     </Router>
   );
 }
