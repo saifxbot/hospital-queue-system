@@ -216,12 +216,6 @@ function MedicalChatbot() {
               <span className="chatbot-icon">🩺</span>
               Medical Assistant
             </div>
-            <button 
-              className="chatbot-close"
-              onClick={() => setIsOpen(false)}
-            >
-              ❌
-            </button>
           </div>
 
           <div className="chatbot-messages">
