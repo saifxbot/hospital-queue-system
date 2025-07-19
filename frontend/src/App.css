@@ -18,25 +18,69 @@ body {
 /* Navigation Styles */
 nav {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  padding: 1rem 2rem;
+  padding: 0.75rem 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   position: sticky;
   top: 0;
   z-index: 100;
+  min-height: 60px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+/* Navigation Theme Toggle */
+.nav-theme-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
 
 nav a {
   color: #ecf0f1;
   text-decoration: none;
-  margin: 0 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
+  margin: 0 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
   transition: all 0.3s ease;
   font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 nav a:hover {
@@ -48,11 +92,13 @@ nav button {
   background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
   border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 25px;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.3s ease;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 nav button:hover {
@@ -443,16 +489,43 @@ li a:hover {
   }
   
   nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 1rem;
-    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     gap: 0.5rem;
+    min-height: 50px;
+  }
+  
+  .nav-left {
+    gap: 0.5rem;
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .nav-right {
+    gap: 0.4rem;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+  
+  .nav-theme-toggle {
+    width: 30px;
+    height: 30px;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    border-radius: 50%;
   }
   
   nav a {
-    margin: 0.25rem 0.5rem;
-    font-size: 0.9rem;
+    margin: 0 0.2rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  nav button {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
   }
   
   h1 {
@@ -506,15 +579,38 @@ li a:hover {
   }
   
   nav {
-    flex-direction: column;
-    padding: 1rem;
-    text-align: center;
+    padding: 0.6rem 0.8rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.4rem;
+    min-height: 55px;
+  }
+  
+  .nav-left {
+    gap: 0.4rem;
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .nav-right {
+    gap: 0.4rem;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+  
+  .nav-theme-toggle {
+    width: 32px;
+    height: 32px;
+    padding: 0.35rem;
+    font-size: 0.85rem;
+    border-radius: 50%;
   }
   
   nav a {
-    margin: 0.25rem 0.5rem;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
+    margin: 0 0.15rem;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
   }
   
   h1 {
@@ -581,21 +677,43 @@ li a:hover {
   }
   
   nav {
-    flex-direction: column;
-    padding: 0.75rem;
-    text-align: center;
+    padding: 0.4rem 0.5rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.3rem;
+    min-height: 45px;
+  }
+  
+  .nav-left {
+    gap: 0.3rem;
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .nav-right {
+    gap: 0.3rem;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+  
+  .nav-theme-toggle {
+    width: 28px;
+    height: 28px;
+    padding: 0.2rem;
+    font-size: 0.75rem;
+    border-radius: 50%;
   }
   
   nav a {
-    margin: 0.2rem 0.3rem;
-    font-size: 0.85rem;
-    padding: 0.4rem 0.6rem;
+    margin: 0 0.1rem;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
   }
   
   nav button {
-    margin-top: 0.5rem;
-    padding: 0.4rem 1rem;
-    font-size: 0.85rem;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
   }
   
   h1 {
@@ -1964,98 +2082,98 @@ li a:hover {
   transition: all 0.3s ease;
 }
 
-/* Light Theme (White Background) */
-.light-theme {
+/* Light Mode Login Styles */
+body.light-mode .login-container {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   color: #333;
 }
 
-.light-theme .login-card {
+body.light-mode .login-card {
   background: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.light-theme h2 {
+body.light-mode .login-card h2 {
   color: #2c3e50;
 }
 
-.light-theme label {
+body.light-mode .login-card label {
   color: #2c3e50;
 }
 
-.light-theme input {
+body.light-mode .login-card input {
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid #e1e8ed;
   color: #333;
 }
 
-.light-theme input:focus {
+body.light-mode .login-card input:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.light-theme button {
+body.light-mode .login-card button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.light-theme button:hover {
+body.light-mode .login-card button:hover {
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-.light-theme .error-message {
+body.light-mode .error-message {
   background: rgba(231, 76, 60, 0.1);
   color: #e74c3c;
   border-left: 4px solid #e74c3c;
 }
 
-/* Dark Theme */
-.dark-theme {
+/* Dark Mode Login Styles */
+body.dark-mode .login-container {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color: #ffffff;
 }
 
-.dark-theme .login-card {
+body.dark-mode .login-card {
   background: rgba(26, 26, 46, 0.95);
   border: 2px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.dark-theme h2 {
+body.dark-mode .login-card h2 {
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.dark-theme label {
+body.dark-mode .login-card label {
   color: #b0bec5;
 }
 
-.dark-theme input {
+body.dark-mode .login-card input {
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
 
-.dark-theme input::placeholder {
+body.dark-mode .login-card input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.dark-theme input:focus {
+body.dark-mode .login-card input:focus {
   border-color: #64b5f6;
   box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
 }
 
-.dark-theme button {
+body.dark-mode .login-card button {
   background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
   color: white;
 }
 
-.dark-theme button:hover {
+body.dark-mode .login-card button:hover {
   box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
 }
 
-.dark-theme .error-message {
+body.dark-mode .error-message {
   background: rgba(244, 67, 54, 0.1);
   color: #ff5722;
   border-left: 4px solid #ff5722;
@@ -2193,6 +2311,92 @@ body.dark-mode {
   color: #ffffff !important;
 }
 
+/* Home Page Theme-Aware Styles */
+/* Light Mode Home Page */
+body.light-mode .home-hero {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+}
+
+body.light-mode .home-hero h1 {
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .home-hero p {
+  color: #34495e;
+}
+
+body.light-mode .dashboard-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+}
+
+body.light-mode .dashboard-card h3 {
+  color: #2c3e50;
+}
+
+body.light-mode .dashboard-card p {
+  color: #34495e;
+}
+
+/* Dark Mode Home Page */
+body.dark-mode .home-hero {
+  background: rgba(26, 26, 46, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.dark-mode .home-hero h1 {
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .home-hero p {
+  color: #b0bec5;
+}
+
+body.dark-mode .dashboard-card {
+  background: rgba(26, 26, 46, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.dark-mode .dashboard-card h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .dashboard-card p {
+  color: #b0bec5;
+}
+
+/* Default styles for when no theme class is applied */
+.home-hero {
+  color: #2c3e50;
+}
+
+.home-hero h1 {
+  color: #2c3e50;
+}
+
+.home-hero p {
+  color: #34495e;
+}
+
+.dashboard-card {
+  color: #2c3e50;
+}
+
+.dashboard-card h3 {
+  color: #2c3e50;
+}
+
+.dashboard-card p {
+  color: #34495e;
+}
+
 /* Responsive Design for Login */
 @media (max-width: 768px) {
   .login-container {
@@ -2242,5 +2446,409 @@ body.dark-mode {
   .theme-toggle-btn {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
+  }
+}
+
+/* Hospital Homepage Content Styles */
+
+/* About Hospital Section */
+.hospital-about {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 3rem;
+  margin: 3rem 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.about-content h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.about-intro {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.highlight-item {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.highlight-item h4 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.highlight-item p {
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Achievements Section */
+.achievements-section {
+  margin: 4rem 0;
+  text-align: center;
+}
+
+.achievements-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  font-weight: 700;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.achievement-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.achievement-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.achievement-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.achievement-card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.achievement-card p {
+  line-height: 1.5;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Statistics Section */
+.stats-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+  text-align: center;
+}
+
+.stats-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  font-weight: 700;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem 1rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Services Section */
+.services-section {
+  margin: 4rem 0;
+  text-align: center;
+}
+
+.services-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  font-weight: 700;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.service-item {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.service-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.service-item h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.service-item p {
+  line-height: 1.5;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Technology Section */
+.technology-section {
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(66, 165, 245, 0.1) 100%);
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.technology-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.tech-content p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tech-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.tech-feature {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.tech-feature:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.tech-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.tech-feature h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.tech-feature p {
+  line-height: 1.5;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Theme-aware styles for new sections */
+body.light-mode .hospital-about,
+body.light-mode .achievement-card,
+body.light-mode .stat-item,
+body.light-mode .service-item,
+body.light-mode .tech-feature,
+body.light-mode .highlight-item {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+}
+
+body.light-mode .stats-section,
+body.light-mode .technology-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  color: #2c3e50;
+}
+
+body.light-mode .about-intro,
+body.light-mode .tech-content p {
+  color: #34495e;
+}
+
+body.dark-mode .hospital-about,
+body.dark-mode .achievement-card,
+body.dark-mode .stat-item,
+body.dark-mode .service-item,
+body.dark-mode .tech-feature,
+body.dark-mode .highlight-item {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.dark-mode .stats-section,
+body.dark-mode .technology-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  color: #ffffff;
+}
+
+body.dark-mode .about-intro,
+body.dark-mode .tech-content p {
+  color: #b0bec5;
+}
+
+/* Responsive Design for New Sections */
+@media (max-width: 768px) {
+  .hospital-about {
+    padding: 2rem 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .about-content h2,
+  .achievements-section h2,
+  .stats-section h2,
+  .services-section h2,
+  .technology-section h2 {
+    font-size: 2rem;
+  }
+  
+  .about-intro,
+  .tech-content p {
+    font-size: 1rem;
+  }
+  
+  .about-highlights {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .achievements-grid,
+  .services-grid,
+  .tech-features {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .stats-section,
+  .technology-section {
+    padding: 3rem 1.5rem;
+    margin: 3rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hospital-about {
+    padding: 1.5rem 1rem;
+  }
+  
+  .about-content h2,
+  .achievements-section h2,
+  .stats-section h2,
+  .services-section h2,
+  .technology-section h2 {
+    font-size: 1.8rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .achievement-card,
+  .service-item,
+  .tech-feature,
+  .highlight-item {
+    padding: 1.5rem;
+  }
+  
+  .stats-section,
+  .technology-section {
+    padding: 2rem 1rem;
   }
 }
