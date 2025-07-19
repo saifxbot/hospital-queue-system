@@ -1,7 +1,138 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 function Home() {
+  const [counters, setCounters] = useState({
+    patients: 0,
+    doctors: 0,
+    specialties: 0,
+    satisfaction: 0,
+    emergency: 0,
+    beds: 0
+  });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const statsRef = useRef(null);
+
+  // Target values for the counters
+  const targetValues = {
+    patients: 150000,
+    doctors: 50,
+    specialties: 25,
+    satisfaction: 98,
+    emergency: 24,
+    beds: 300
+  };
+
+  // Animation function for counting up
+  const animateCounter = (key, targetValue, suffix = '') => {
+    console.log(`Starting animation for ${key} to ${targetValue}`); // Debug log
+    const duration = 2000; // 2 seconds
+    const steps = 60; // Number of steps for animation
+    const increment = targetValue / steps;
+    let currentValue = 0;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      currentValue = Math.min(step * increment, targetValue);
+      
+      setCounters(prev => ({
+        ...prev,
+        [key]: Math.floor(currentValue)
+      }));
+
+      if (step >= steps || currentValue >= targetValue) {
+        setCounters(prev => ({
+          ...prev,
+          [key]: targetValue
+        }));
+        clearInterval(timer);
+        console.log(`Animation completed for ${key}`); // Debug log
+      }
+    }, duration / steps);
+
+    // Add a pulse effect during counting
+    const statElement = document.querySelector(`[data-stat="${key}"]`);
+    if (statElement) {
+      statElement.classList.add('counting');
+      setTimeout(() => {
+        statElement.classList.remove('counting');
+      }, duration);
+    }
+  };
+
+  // Manual trigger for testing (can be removed later)
+  const triggerAnimation = () => {
+    if (!hasAnimated) {
+      console.log('Manually triggering animation');
+      setHasAnimated(true);
+      setTimeout(() => animateCounter('patients', targetValues.patients), 100);
+      setTimeout(() => animateCounter('doctors', targetValues.doctors), 200);
+      setTimeout(() => animateCounter('specialties', targetValues.specialties), 300);
+      setTimeout(() => animateCounter('satisfaction', targetValues.satisfaction), 400);
+      setTimeout(() => animateCounter('emergency', targetValues.emergency), 500);
+      setTimeout(() => animateCounter('beds', targetValues.beds), 600);
+    }
+  };
+
+  // Intersection Observer to trigger animation when section is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            console.log('Stats section is visible, starting animation'); // Debug log
+            setHasAnimated(true);
+            
+            // Start all animations with slight delays
+            setTimeout(() => animateCounter('patients', targetValues.patients), 100);
+            setTimeout(() => animateCounter('doctors', targetValues.doctors), 200);
+            setTimeout(() => animateCounter('specialties', targetValues.specialties), 300);
+            setTimeout(() => animateCounter('satisfaction', targetValues.satisfaction), 400);
+            setTimeout(() => animateCounter('emergency', targetValues.emergency), 500);
+            setTimeout(() => animateCounter('beds', targetValues.beds), 600);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the section is visible (more sensitive)
+        rootMargin: '0px 0px -50px 0px' // Start animation earlier
+      }
+    );
+
+    const currentStatsRef = statsRef.current;
+    if (currentStatsRef) {
+      observer.observe(currentStatsRef);
+      console.log('Observer attached to stats section'); // Debug log
+    }
+
+    return () => {
+      if (currentStatsRef) {
+        observer.unobserve(currentStatsRef);
+      }
+    };
+  }, [hasAnimated]);
+
+  // Format numbers with commas and suffixes
+  const formatNumber = (num, type) => {
+    switch (type) {
+      case 'patients':
+        return `${num.toLocaleString()}+`;
+      case 'doctors':
+        return `${num}+`;
+      case 'specialties':
+        return `${num}+`;
+      case 'satisfaction':
+        return `${num}%`;
+      case 'emergency':
+        return `${num}/7`;
+      case 'beds':
+        return `${num}+`;
+      default:
+        return num.toString();
+    }
+  };
+
   return (
     <div className="fade-in">
       <div className="home-hero">
@@ -104,31 +235,50 @@ function Home() {
       </div>
 
       {/* Statistics Section */}
-      <div className="stats-section">
+      <div className="stats-section" ref={statsRef}>
         <h2>📊 Our Impact in Numbers</h2>
+        
+        {/* Temporary test button - remove this once working */}
+        {!hasAnimated && (
+          <button 
+            onClick={triggerAnimation}
+            style={{
+              margin: '1rem',
+              padding: '0.5rem 1rem',
+              background: '#667eea',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}
+          >
+            🎯 Start Animation (Test)
+          </button>
+        )}
+        
         <div className="stats-grid">
           <div className="stat-item">
-            <div className="stat-number">150,000+</div>
+            <div className="stat-number" data-stat="patients">{formatNumber(counters.patients, 'patients')}</div>
             <div className="stat-label">Patients Served Annually</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">50+</div>
+            <div className="stat-number" data-stat="doctors">{formatNumber(counters.doctors, 'doctors')}</div>
             <div className="stat-label">Expert Doctors</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">25+</div>
+            <div className="stat-number" data-stat="specialties">{formatNumber(counters.specialties, 'specialties')}</div>
             <div className="stat-label">Medical Specialties</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">98%</div>
+            <div className="stat-number" data-stat="satisfaction">{formatNumber(counters.satisfaction, 'satisfaction')}</div>
             <div className="stat-label">Patient Satisfaction Rate</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">24/7</div>
+            <div className="stat-number" data-stat="emergency">{formatNumber(counters.emergency, 'emergency')}</div>
             <div className="stat-label">Emergency Services</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">300+</div>
+            <div className="stat-number" data-stat="beds">{formatNumber(counters.beds, 'beds')}</div>
             <div className="stat-label">Beds Capacity</div>
           </div>
         </div>

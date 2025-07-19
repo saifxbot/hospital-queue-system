@@ -2585,17 +2585,10 @@ body.dark-mode .dashboard-card p {
   margin: 0 auto;
 }
 
-.stat-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2rem 1rem;
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-}
-
 .stat-item:hover {
   transform: scale(1.05);
   background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .stat-number {
@@ -2606,6 +2599,41 @@ body.dark-mode .dashboard-card p {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  transition: all 0.3s ease;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-number.counting {
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem 1rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  animation: countUp 0.6s ease-out;
 }
 
 .stat-label {
