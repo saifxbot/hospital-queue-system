@@ -16,8 +16,8 @@ function Home() {
   // Target values for the counters
   const targetValues = {
     patients: 150000,
-    doctors: 50,
-    specialties: 25,
+    doctors: 100, // Updated: 50 + 50 = 100 total doctors
+    specialties: 30, // Updated: More specialties with more doctors
     satisfaction: 98,
     emergency: 24,
     beds: 300
@@ -161,7 +161,7 @@ function Home() {
         <div className="about-content">
           <h2>🌟 About Our Hospital</h2>
           <p className="about-intro">
-            HealthCare Excellence Hospital has been serving the community for over <strong>25 years</strong>, 
+            HealthCare Excellence Hospital has been serving the community for over <strong>27 years</strong>, 
             providing world-class medical care with cutting-edge technology and compassionate service. 
             Our state-of-the-art digital queue management system ensures efficient, hassle-free healthcare 
             experience for all our patients.
@@ -198,7 +198,7 @@ function Home() {
         <div className="achievements-grid">
           <div className="achievement-card">
             <div className="achievement-icon">🥇</div>
-            <h4>Best Healthcare Innovation 2024</h4>
+            <h4>Best Healthcare Innovation 2025</h4>
             <p>Awarded for our revolutionary digital queue management system that reduced patient waiting time by 60%</p>
           </div>
           
@@ -217,13 +217,13 @@ function Home() {
           <div className="achievement-card">
             <div className="achievement-icon">🌍</div>
             <h4>Community Service Recognition</h4>
-            <p>Honored for providing free healthcare services to underprivileged communities for 10+ years</p>
+            <p>Honored for providing free healthcare services to underprivileged communities for 12+ years</p>
           </div>
           
           <div className="achievement-card">
             <div className="achievement-icon">🔬</div>
             <h4>Research Pioneer</h4>
-            <p>Leading 15+ clinical research studies contributing to medical advancements globally</p>
+            <p>Leading 25+ clinical research studies contributing to medical advancements globally</p>
           </div>
           
           <div className="achievement-card">
