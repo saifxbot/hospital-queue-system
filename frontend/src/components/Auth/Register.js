@@ -4,7 +4,8 @@ import api from "../../api/api";
 
 function Register() {
   const [form, setForm] = useState({ 
-    username: "", 
+    user_id: "",     // New unique ID field
+    username: "",    // Display name
     email: "", 
     password: "", 
     confirmPassword: "",
@@ -20,6 +21,18 @@ function Register() {
   };
 
   const validateForm = () => {
+    // Validate user_id
+    if (!form.user_id || form.user_id.length < 3 || form.user_id.length > 20) {
+      setError("❌ User ID must be 3-20 characters long!");
+      return false;
+    }
+
+    const userIdRegex = /^[a-zA-Z0-9]+$/;
+    if (!userIdRegex.test(form.user_id)) {
+      setError("❌ User ID can only contain letters and numbers!");
+      return false;
+    }
+
     if (form.password !== form.confirmPassword) {
       setError("❌ Passwords don't match!");
       return false;
@@ -94,11 +107,24 @@ function Register() {
         {error && <p style={{color:"red"}}>{error}</p>}
         {success && <p style={{color:"green"}}>{success}</p>}
         
-        <label>👤 Username:</label>
+        <label>🆔 User ID:</label>
+        <input
+          type="text"
+          name="user_id"
+          placeholder="Enter unique ID (3-20 chars, letters & numbers only)"
+          value={form.user_id}
+          onChange={handleChange}
+          required
+          disabled={loading}
+          pattern="[a-zA-Z0-9]{3,20}"
+          title="User ID must be 3-20 characters long and contain only letters and numbers"
+        />
+        
+        <label>👤 Full Name:</label>
         <input
           type="text"
           name="username"
-          placeholder="Choose a unique username"
+          placeholder="Enter your full name"
           value={form.username}
           onChange={handleChange}
           required

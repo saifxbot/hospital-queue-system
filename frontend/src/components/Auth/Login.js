@@ -6,7 +6,7 @@ import { setToken } from '../../utils/auth';
 const Login = () => {
   const [step, setStep] = useState(1); // 1: credentials, 2: verification
   const [formData, setFormData] = useState({
-    username: '',
+    user_id: '',  // Changed from username to user_id
     password: '',
     verificationCode: ''
   });
@@ -33,7 +33,7 @@ const Login = () => {
 
     try {
       const response = await api.post('/api/auth/login', {
-        username: formData.username,
+        user_id: formData.user_id,  // Changed from username to user_id
         password: formData.password
       });
 
@@ -139,15 +139,15 @@ const Login = () => {
         {step === 1 ? (
           <form onSubmit={handleLoginSubmit}>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="user_id">User ID</label>
               <input
                 type="text"
-                id="username"
-                name="username"
-                value={formData.username}
+                id="user_id"
+                name="user_id"
+                value={formData.user_id}
                 onChange={handleInputChange}
                 required
-                placeholder="Enter your username"
+                placeholder="Enter your user ID"
               />
             </div>
 

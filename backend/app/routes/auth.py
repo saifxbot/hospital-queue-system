@@ -12,27 +12,32 @@ logger = logging.getLogger(__name__)
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    username = data.get("username")
+    user_id = data.get("user_id")  # New unique ID field
+    username = data.get("username")  # Display name
     email = data.get("email")
     password = data.get("password")
     role = data.get("role", "patient")
 
-    if not username or not password or not email:
-        return jsonify({"msg": "Username, email, and password are required"}), 400
+    if not user_id or not username or not password or not email:
+        return jsonify({"msg": "User ID, name, email, and password are required"}), 400
+
+    # Validate user_id format (alphanumeric, 3-20 characters)
+    import re
+    if not re.match(r'^[a-zA-Z0-9]{3,20}$', user_id):
+        return jsonify({"msg": "User ID must be 3-20 characters long and contain only letters and numbers"}), 400
 
     # Validate email format
-    import re
     email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     if not re.match(email_pattern, email):
         return jsonify({"msg": "Invalid email format"}), 400
 
-    if User.query.filter_by(username=username).first():
-        return jsonify({"msg": "Username already exists"}), 409
+    if User.query.filter_by(user_id=user_id).first():
+        return jsonify({"msg": "This ID already exists, try another"}), 409
 
     if User.query.filter_by(email=email).first():
         return jsonify({"msg": "Email already exists"}), 409
 
-    user = User(username=username, email=email, role=role)
+    user = User(user_id=user_id, username=username, email=email, role=role)
     user.set_password(password)
     db.session.add(user)
     db.session.commit()
@@ -55,13 +60,13 @@ def register():
 def login():
     """Step 1: Validate credentials and send verification code"""
     data = request.get_json()
-    username = data.get("username")
+    user_id = data.get("user_id")  # Use user_id instead of username
     password = data.get("password")
 
-    if not username or not password:
-        return jsonify({"msg": "Username and password required"}), 400
+    if not user_id or not password:
+        return jsonify({"msg": "User ID and password required"}), 400
 
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(user_id=user_id).first()
     
     if not user:
         return jsonify({"msg": "Invalid credentials"}), 401
@@ -105,6 +110,7 @@ def login():
             "access_token": access_token,
             "user": {
                 "id": user.id,
+                "user_id": user.user_id,
                 "username": user.username,
                 "email": user.email,
                 "role": user.role
@@ -183,6 +189,7 @@ def verify_2fa():
             "access_token": access_token,
             "user": {
                 "id": user.id,
+                "user_id": user.user_id,
                 "username": user.username,
                 "email": user.email,
                 "role": user.role
