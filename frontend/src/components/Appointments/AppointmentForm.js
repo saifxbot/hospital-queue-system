@@ -5,7 +5,6 @@ import { isLoggedIn } from "../../utils/auth";
 
 function AppointmentForm() {
   const [doctorId, setDoctorId] = useState("");
-  const [appointmentTime, setAppointmentTime] = useState("");
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTimeSlot, setAppointmentTimeSlot] = useState("");
   const [message, setMessage] = useState("");
@@ -108,7 +107,6 @@ function AppointmentForm() {
         setSelectedDoctor(null);
         setAppointmentDate("");
         setAppointmentTimeSlot("");
-        setAppointmentTime("");
         setShowConfirmation(false);
         setMessage("");
       }, 4000);
@@ -204,7 +202,6 @@ function AppointmentForm() {
         setSelectedDoctor(null);
         setAppointmentDate("");
         setAppointmentTimeSlot("");
-        setAppointmentTime("");
         setShowConfirmation(false);
         setMessage("");
       }, 4000);

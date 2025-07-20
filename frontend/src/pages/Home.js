@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
+// Target values for the counters (moved outside component to avoid dependency warnings)
+const targetValues = {
+  patients: 150000,
+  doctors: 100, // Updated: 50 + 50 = 100 total doctors
+  specialties: 30, // Updated: More specialties with more doctors
+  satisfaction: 98,
+  emergency: 24,
+  beds: 300
+};
+
 function Home() {
   const [counters, setCounters] = useState({
     patients: 0,
@@ -12,16 +22,6 @@ function Home() {
   });
   const [hasAnimated, setHasAnimated] = useState(false);
   const statsRef = useRef(null);
-
-  // Target values for the counters
-  const targetValues = {
-    patients: 150000,
-    doctors: 100, // Updated: 50 + 50 = 100 total doctors
-    specialties: 30, // Updated: More specialties with more doctors
-    satisfaction: 98,
-    emergency: 24,
-    beds: 300
-  };
 
   // Animation function for counting up
   const animateCounter = (key, targetValue, suffix = '') => {

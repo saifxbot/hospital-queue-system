@@ -78,9 +78,15 @@ function MedicalChatbot() {
   };
 
   const findDoctorByName = (name) => {
-    return doctors.filter(doctor => 
-      doctor.name.toLowerCase().includes(name.toLowerCase())
-    );
+    const searchTerms = name.toLowerCase().split(' ').filter(term => term.length > 2);
+    
+    return doctors.filter(doctor => {
+      const doctorName = doctor.name.toLowerCase();
+      // Check if all search terms are found in the doctor's name
+      return searchTerms.every(term => doctorName.includes(term)) || 
+             // Or if any search term matches a word in the doctor's name
+             searchTerms.some(term => doctorName.split(' ').some(word => word.includes(term)));
+    });
   };
 
   const findDoctorBySpecialty = (specialty) => {
@@ -93,21 +99,58 @@ function MedicalChatbot() {
     const lowerQuery = query.toLowerCase();
     
     // Check if user is asking for a specific doctor
-    if (lowerQuery.includes("doctor") || lowerQuery.includes("dr")) {
-      // Extract potential doctor name
-      const words = query.split(" ");
-      const doctorResults = [];
+    if (lowerQuery.includes("find") && (lowerQuery.includes("doctor") || lowerQuery.includes("dr"))) {
+      // Extract doctor name from queries like "find Dr. Smith" or "find doctor John"
+      let doctorName = "";
       
-      words.forEach(word => {
-        const matches = findDoctorByName(word);
-        doctorResults.push(...matches);
-      });
+      // Try to extract name after "dr." or "doctor"
+      const drMatch = query.match(/(?:dr\.?\s+|doctor\s+)([a-zA-Z\s]+)/i);
+      if (drMatch) {
+        doctorName = drMatch[1].trim();
+      } else {
+        // Try to extract name after "find"
+        const findMatch = query.match(/find\s+([a-zA-Z\s]+)/i);
+        if (findMatch) {
+          doctorName = findMatch[1].replace(/\b(doctor|dr\.?)\b/gi, '').trim();
+        }
+      }
       
-      if (doctorResults.length > 0) {
-        return {
-          type: "doctor_search",
-          results: [...new Set(doctorResults)] // Remove duplicates
-        };
+      if (doctorName) {
+        const doctorResults = findDoctorByName(doctorName);
+        if (doctorResults.length > 0) {
+          return {
+            type: "doctor_search",
+            searchTerm: doctorName,
+            results: doctorResults
+          };
+        } else {
+          return {
+            type: "doctor_not_found",
+            searchTerm: doctorName
+          };
+        }
+      }
+    }
+    
+    // Check if user is asking for doctors by specialty
+    if (lowerQuery.includes("doctor") || lowerQuery.includes("specialist")) {
+      const specialties = [
+        "cardiology", "pediatrics", "general medicine", "neurology", 
+        "gastroenterology", "endocrinology", "psychiatry", "orthopedics",
+        "dermatology", "gynecology", "urology", "oncology", "hematology"
+      ];
+      
+      for (const specialty of specialties) {
+        if (lowerQuery.includes(specialty)) {
+          const specialtyDoctors = findDoctorBySpecialty(specialty);
+          if (specialtyDoctors.length > 0) {
+            return {
+              type: "specialty_search",
+              specialty: specialty,
+              results: specialtyDoctors
+            };
+          }
+        }
       }
     }
 
@@ -123,21 +166,6 @@ function MedicalChatbot() {
       }
     }
 
-    // Check for specialty search
-    const specialties = ["cardiology", "pediatrics", "general medicine", "neurology", "gastroenterology", "endocrinology", "psychiatry"];
-    for (const specialty of specialties) {
-      if (lowerQuery.includes(specialty)) {
-        const specialtyDoctors = findDoctorBySpecialty(specialty);
-        if (specialtyDoctors.length > 0) {
-          return {
-            type: "specialty_search",
-            specialty: specialty,
-            results: specialtyDoctors
-          };
-        }
-      }
-    }
-
     return { type: "general" };
   };
 
@@ -146,9 +174,12 @@ function MedicalChatbot() {
 
     switch (analysis.type) {
       case "doctor_search":
-        return `👨‍⚕️ I found these doctors:\n\n${analysis.results.map(doc => 
+        return `👨‍⚕️ I found ${analysis.results.length} doctor(s) matching "${analysis.searchTerm}":\n\n${analysis.results.map(doc => 
           `• Dr. ${doc.name} - ${doc.specialization}\n  📍 ${doc.chamber || 'Chamber info not available'}\n  📞 ${doc.phone || 'Contact info not available'}`
         ).join('\n\n')}`;
+      
+      case "doctor_not_found":
+        return `❌ Sorry, I couldn't find any doctors matching "${analysis.searchTerm}". \n\n💡 Try:\n• Using just the last name (e.g., "find Dr. Smith")\n• Checking the spelling\n• Asking for a specialty instead (e.g., "cardiology doctors")\n\n🔍 You can also browse all available doctors by asking "show all doctors"`;
 
       case "specialty_search":
         return `🩺 ${analysis.specialty.charAt(0).toUpperCase() + analysis.specialty.slice(1)} specialists:\n\n${analysis.results.map(doc => 
@@ -160,7 +191,14 @@ function MedicalChatbot() {
         return `🩺 About ${condition.charAt(0).toUpperCase() + condition.slice(1)}:\n\n💡 Advice: ${data.advice}\n\n👨‍⚕️ Recommended specialist: ${data.doctor}\n\n⚠️ Note: This is general guidance. Always consult a healthcare professional for proper diagnosis and treatment.`;
 
       default:
-        return `🤖 I'm here to help with medical questions and doctor searches. Try asking about:\n\n• Symptoms like "I have a headache" or "chest pain"\n• Finding doctors: "Find Dr. Smith" or "cardiology doctors"\n• Health conditions: "diabetes care" or "fever treatment"\n\nWhat would you like to know?`;
+        // Check if user wants to see all doctors
+        if (query.toLowerCase().includes("show all doctors") || query.toLowerCase().includes("list all doctors")) {
+          return `👨‍⚕️ Here are all available doctors:\n\n${doctors.map(doc => 
+            `• Dr. ${doc.name} - ${doc.specialization}`
+          ).join('\n')}`;
+        }
+        
+        return `🤖 I'm here to help with medical questions and doctor searches. Try asking about:\n\n• Find specific doctors: "find Dr. Smith" or "find Dr. Johnson"\n• Find specialists: "cardiology doctors" or "pediatric specialists"\n• Symptoms: "I have a headache" or "chest pain"\n• Health conditions: "diabetes care" or "fever treatment"\n• See all doctors: "show all doctors"\n\nWhat would you like to know?`;
     }
   };
 
