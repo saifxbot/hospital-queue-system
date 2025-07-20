@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 
 function Register() {
-  const [form, setForm] = useState({ username: "", password: "", role: "patient" });
+  const [form, setForm] = useState({ 
+    username: "", 
+    email: "", 
+    password: "", 
+    confirmPassword: "",
+    role: "patient" 
+  });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,18 +19,50 @@ function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    if (form.password !== form.confirmPassword) {
+      setError("❌ Passwords don't match!");
+      return false;
+    }
+    
+    if (form.password.length < 6) {
+      setError("❌ Password must be at least 6 characters long!");
+      return false;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      setError("❌ Please enter a valid email address!");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true);
     
     try {
-      await api.post("/api/auth/register", form);
-      setSuccess("🎉 Registration successful! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 2000);
+      // Send only the required fields to backend
+      const { confirmPassword, ...registerData } = form;
+      await api.post("/api/auth/register", registerData);
+      setSuccess("🎉 Registration successful! You can now login with email verification.");
+      setTimeout(() => navigate("/login"), 3000);
     } catch (err) {
-      setError("❌ Registration failed. Username might already exist.");
+      if (err.response?.data?.msg) {
+        setError(`❌ ${err.response.data.msg}`);
+      } else {
+        setError("❌ Registration failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -64,16 +102,41 @@ function Register() {
           value={form.username}
           onChange={handleChange}
           required
+          disabled={loading}
         />
         
-        <label>🔒 Password:</label>
+        <label>� Email Address:</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter your email address"
+          value={form.email}
+          onChange={handleChange}
+          required
+          disabled={loading}
+        />
+        
+        <label>�🔒 Password:</label>
         <input
           type="password"
           name="password"
-          placeholder="Create a secure password"
+          placeholder="Create a secure password (min 6 characters)"
           value={form.password}
           onChange={handleChange}
           required
+          disabled={loading}
+          minLength={6}
+        />
+        
+        <label>🔒 Confirm Password:</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm your password"
+          value={form.confirmPassword}
+          onChange={handleChange}
+          required
+          disabled={loading}
         />
         
         <label>🎭 Account Type:</label>
