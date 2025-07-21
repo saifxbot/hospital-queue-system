@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import AppointmentForm from "./components/Appointments/AppointmentForm";
 import AppointmentList from "./components/Appointments/AppointmentList";
@@ -46,6 +48,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/doctors" element={<DoctorsList />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/appointments/new" element={<AppointmentForm />} />

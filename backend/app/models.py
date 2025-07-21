@@ -2,6 +2,7 @@ from .extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import secrets
+import random
 
 # Single User model: authentication + role based access
 class User(db.Model):
@@ -17,6 +18,10 @@ class User(db.Model):
     email_verification_code = db.Column(db.String(6), nullable=True)
     email_verification_expires = db.Column(db.DateTime, nullable=True)
     two_factor_enabled = db.Column(db.Boolean, default=True, nullable=False)  # Enable 2FA by default
+    
+    # Password Reset Fields
+    password_reset_token = db.Column(db.String(32), nullable=True)
+    password_reset_expires = db.Column(db.DateTime, nullable=True)
     
     # Login attempt tracking
     failed_login_attempts = db.Column(db.Integer, default=0, nullable=False)
@@ -65,6 +70,30 @@ class User(db.Model):
         self.failed_login_attempts += 1
         if self.failed_login_attempts >= 5:  # Lock after 5 failed attempts
             self.account_locked_until = datetime.utcnow() + timedelta(minutes=30)  # Lock for 30 minutes
+    
+    def generate_password_reset_token(self):
+        """Generate a 6-digit password reset code and set expiration"""
+        self.password_reset_token = f"{random.randint(100000, 999999):06d}"
+        self.password_reset_expires = datetime.utcnow() + timedelta(hours=1)  # Expires in 1 hour
+        return self.password_reset_token
+    
+    def verify_password_reset_token(self, token):
+        """Verify the password reset token"""
+        if not self.password_reset_token or not self.password_reset_expires:
+            return False
+        
+        if datetime.utcnow() > self.password_reset_expires:
+            return False  # Token expired
+        
+        return self.password_reset_token == token
+    
+    def reset_password(self, new_password):
+        """Reset password and clear reset token"""
+        self.set_password(new_password)
+        self.password_reset_token = None
+        self.password_reset_expires = None
+        self.failed_login_attempts = 0  # Reset failed attempts
+        self.account_locked_until = None  # Unlock account if locked
 
 # Patient profile (linked with User)
 class Patient(db.Model):

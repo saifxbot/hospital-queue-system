@@ -167,6 +167,12 @@ const Login = () => {
             <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? 'Signing In...' : 'Sign In'}
             </button>
+            
+            <div className="auth-links">
+              <Link to="/forgot-password" className="forgot-password-link">
+                Forgot your password?
+              </Link>
+            </div>
           </form>
         ) : (
           <form onSubmit={handleVerificationSubmit}>
