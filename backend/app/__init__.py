@@ -14,10 +14,12 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    cors.init_app(app)
+    from flask_cors import CORS
+    CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
     mail.init_app(app)  # Initialize Flask-Mail
-
-    # sob blueprint register koro
+   
+   
+   # Register blueprints for different routes
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(patient_bp, url_prefix="/api/patient")
     app.register_blueprint(doctor_bp, url_prefix="/api/doctor")
