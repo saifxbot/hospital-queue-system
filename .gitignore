@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+.env
+.env.*
+.venv/
+instance/
+db.sqlite3
+
+# Node
+node_modules/
+build/
+.env
+.env.*
+
+# VSCode
+.vscode/
